@@ -1,26 +1,14 @@
-export interface State {
-  counter: number;
-  message: string;
-}
+import { AnyAction } from "redux";
+import { State } from "../types/store";
 
 export const initialState: State = {
-  counter: 0,
-  message: "",
+  result: null,
 };
 
-export const reducer = (state: State, action: { type: string }) => {
+export const reducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case "INCREMENT":
-      return {
-        counter: state.counter--,
-        message: "INCREMENT",
-      };
-
-    case "DECREMENT":
-      return {
-        counter: state.counter--,
-        message: "DECREMENT",
-      };
+    case "LOAD":
+      return { ...state, resultData: action.data };
 
     default:
       return state;

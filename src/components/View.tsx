@@ -1,4 +1,4 @@
-export const View = (props) => {
+export const View = () => {
   return (
     <>
       <p>View Component</p>

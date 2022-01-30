@@ -1,22 +1,29 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { View } from "./components/View";
-import { Store } from "redux";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { InputFile } from "./components/InputFile";
+import { State } from "./types/store";
+import { useEffect } from "react";
 
-function App(props: Store) {
+function App(props: any) {
+  const resultData = useSelector((state: State) => state.result?.axisNames);
+
+  console.log(resultData);
   return (
     <div className="App">
       <View />
+      <InputFile />
     </div>
   );
 }
 
-const mapStateToProps = (state: any) => {
-  return { count: state.count };
-};
+// const mapStateToProps = (state: State) => {
+//   return state;
+// };
 
-export default connect(mapStateToProps)(App);
+// const connector = connect(mapStateToProps);
+// type PropsFromRedux = ConnectedProps<typeof connector>;
 
-// export default App;
+export default App;
+
+// export default connector(App);
