@@ -1,7 +1,7 @@
 import { AnyAction } from "redux";
-import { State } from "../types/store";
+import { StoreState } from "../types/store";
 
-export const initialState: State = {
+export const initialState: StoreState = {
   result: null,
 };
 

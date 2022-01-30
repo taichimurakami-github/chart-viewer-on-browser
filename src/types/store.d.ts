@@ -1,5 +1,5 @@
 import { resultData } from "./data";
 
-export type State = {
+export type StoreState = {
   result: null | resultData;
 };
