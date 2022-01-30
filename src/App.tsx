@@ -1,16 +1,8 @@
 import "./App.css";
 import { View } from "./components/View";
-import { useSelector } from "react-redux";
 import { InputFile } from "./components/InputFile";
-import { StoreState } from "./types/store";
-import { useEffect } from "react";
 
 function App(props: any) {
-  const resultData = useSelector(
-    (state: StoreState) => state.result?.axisNames
-  );
-
-  console.log(resultData);
   return (
     <div className="App">
       <View />

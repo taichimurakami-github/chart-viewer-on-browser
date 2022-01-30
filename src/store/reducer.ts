@@ -8,7 +8,7 @@ export const initialState: StoreState = {
 export const reducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case "LOAD":
-      return { ...state, resultData: action.data };
+      return { ...state, result: action.result };
 
     default:
       return state;
