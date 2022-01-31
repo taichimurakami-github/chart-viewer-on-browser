@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 export const InputFile = () => {
@@ -21,5 +21,9 @@ export const InputFile = () => {
     }
   };
 
-  return <input type="file" onChange={handleLoadFile} />;
+  return (
+    <div style={{ padding: "30px" }}>
+      <input type="file" onChange={handleLoadFile} />
+    </div>
+  );
 };

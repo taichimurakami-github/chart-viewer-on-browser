@@ -2,11 +2,11 @@ import "./App.css";
 import { View } from "./components/View";
 import { InputFile } from "./components/InputFile";
 
-function App(props: any) {
+function App() {
   return (
     <div className="App">
-      <View />
       <InputFile />
+      <View />
     </div>
   );
 }
