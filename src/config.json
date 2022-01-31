@@ -1,0 +1,24 @@
+{
+  "View": {
+    "Chart": {
+      "width": 500,
+      "gap": {
+        "col": 10,
+        "row": 10
+      },
+      "colors": [
+        "red",
+        "yellow",
+        "blue",
+        "lightgreen",
+        "green",
+        "skyblue",
+        "blue",
+        "purple",
+        "pink",
+        "brown",
+        "black"
+      ]
+    }
+  }
+}

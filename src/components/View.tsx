@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { StoreState } from "../types/store";
 import { Line } from "react-chartjs-2";
+import config from "../config.json";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -37,20 +38,6 @@ const displayChartTypes = {
   "003": "I_only",
 };
 
-const colors = [
-  "red",
-  "yellow",
-  "blue",
-  "lightgreen",
-  "green",
-  "skyblue",
-  "blue",
-  "purple",
-  "pink",
-  "brown",
-  "black",
-];
-
 export const View = () => {
   const result = useSelector((arg: { state: StoreState }) => arg.state.result);
   const [viewState, setViewState] = useState<string>(displayChartTypes["001"]);
@@ -60,6 +47,10 @@ export const View = () => {
 
   //x軸のラベル：普通に数値を入れるだけ
   const x_axis_label = result.data[0].map((val, index) => index);
+
+  //その他設定読みこみ
+  const colors = config.View.Chart.colors;
+  const width = config.View.Chart.width;
 
   /**
    * chartJSのdatasetを作成する
@@ -118,14 +109,15 @@ export const View = () => {
       };
 
       LineChartComponents.push(
-        <div style={{ width: "500px" }}>
+        <div style={{ width: width + "px" }}>
           <Line
             height={100}
             width={100}
             data={chartJS_chartData}
-            id={`chart_of_space_${0}`}
+            id={`chart_of_space_${spaceID}`}
             options={chartJS_options}
           />
+          <p>Space {spaceID}</p>
         </div>
       );
     }
@@ -138,6 +130,16 @@ export const View = () => {
     all: createLineChartComponent(),
     SIR: createLineChartComponent(0, 3),
     I_only: createLineChartComponent(3),
+  };
+
+  const handleViewerWidth = () => {
+    const w_col = result.config.params.space.length.col;
+    switch (result.config.params.space.connectionType) {
+      case "partial":
+        return (width + config.View.Chart.gap.col) * w_col + "px";
+      default:
+        return width * 10 + "px";
+    }
   };
 
   const handleView = () => {
@@ -190,10 +192,20 @@ export const View = () => {
         </ul>
       </div>
       <div
-        className="chart-view-wrapper"
-        style={{ display: "flex", flexWrap: "wrap" }}
+        className="chart-view-container"
+        style={{ width: "100%", overflow: "auto" }}
       >
-        {handleView()}
+        <div
+          className="chart-view-container"
+          style={{
+            display: "flex",
+            gap: "10px",
+            flexWrap: "wrap",
+            width: handleViewerWidth(),
+          }}
+        >
+          {handleView()}
+        </div>
       </div>
     </>
   );
