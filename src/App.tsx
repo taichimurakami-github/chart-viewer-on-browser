@@ -1,11 +1,12 @@
 import "./App.css";
 import { View } from "./components/View";
 import { InputFile } from "./components/InputFile";
+import { Menu } from "./components/Menu";
 
 function App() {
   return (
     <div className="App">
-      <InputFile />
+      <Menu />
       <View />
     </div>
   );

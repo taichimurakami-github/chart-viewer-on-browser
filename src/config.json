@@ -1,6 +1,11 @@
 {
   "View": {
     "Chart": {
+      "chartTypes": {
+        "001": "all",
+        "002": "SIR",
+        "003": "I_only"
+      },
       "width": 500,
       "gap": {
         "col": 10,

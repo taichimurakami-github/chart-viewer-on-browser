@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "../types/store";
 import { Line } from "react-chartjs-2";
 import config from "../config.json";
@@ -32,15 +32,9 @@ type datasetObject = {
   borderWidth: number;
 };
 
-const displayChartTypes = {
-  "001": "all",
-  "002": "SIR",
-  "003": "I_only",
-};
-
 export const View = () => {
   const result = useSelector((arg: { state: StoreState }) => arg.state.result);
-  const [viewState, setViewState] = useState<string>(displayChartTypes["001"]);
+  const viewState = useSelector((arg: { state: StoreState }) => arg.state.view);
 
   //resultにデータが格納されていなかったら終了
   if (!result) return <p>no data</p>;
@@ -143,6 +137,7 @@ export const View = () => {
   };
 
   const handleView = () => {
+    const displayChartTypes = config.View.Chart.chartTypes;
     switch (viewState) {
       case displayChartTypes["002"]:
         return ChartComponents.SIR;
@@ -157,55 +152,17 @@ export const View = () => {
 
   return (
     <>
-      <div className="chart-view-control-panel" style={{ padding: "15px" }}>
-        <h2>コントロールパネル</h2>
-        <ul
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            columnGap: "15px",
-            padding: "0",
-          }}
-        >
-          <button
-            onClick={() => {
-              setViewState(displayChartTypes["001"]);
-            }}
-          >
-            all
-          </button>
-          <button
-            onClick={() => {
-              setViewState(displayChartTypes["002"]);
-            }}
-          >
-            SIR
-          </button>
-          <button
-            onClick={() => {
-              setViewState(displayChartTypes["003"]);
-            }}
-          >
-            I_only
-          </button>
-        </ul>
-      </div>
       <div
         className="chart-view-container"
-        style={{ width: "100%", overflow: "auto" }}
+        style={{
+          display: "flex",
+          gap: "10px",
+          padding: "100px",
+          flexWrap: "wrap",
+          width: handleViewerWidth(),
+        }}
       >
-        <div
-          className="chart-view-container"
-          style={{
-            display: "flex",
-            gap: "10px",
-            flexWrap: "wrap",
-            width: handleViewerWidth(),
-          }}
-        >
-          {handleView()}
-        </div>
+        {handleView()}
       </div>
     </>
   );
