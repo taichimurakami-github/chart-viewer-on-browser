@@ -1,5 +1,5 @@
 import config from "../../config.json";
-import { datasetObject } from "../../types/chartGenerator";
+import { LineChartDataset } from "../../types/chartJS";
 import { resultData } from "../../types/data";
 import { Line } from "react-chartjs-2";
 
@@ -58,7 +58,7 @@ export const ShowLineCharts = (props: {
     const datasetsFromResult = [];
 
     for (let i = r_start; i < r_end; i++) {
-      const insertObj: datasetObject = {
+      const insertObj: LineChartDataset = {
         label: result.axisNames[i],
         data: [],
         borderColor: colors[i],
@@ -77,6 +77,9 @@ export const ShowLineCharts = (props: {
     return datasetsFromResult;
   };
 
+  /**
+   * グラフのデータセット生成処理
+   */
   const LineChartComponents = [];
   //全ての空間に対して走査
   for (let spaceID = 0; spaceID < result.data.length; spaceID++) {
@@ -105,7 +108,9 @@ export const ShowLineCharts = (props: {
     );
   }
 
-  //描画部分
+  /**
+   * 描画
+   */
   const handleViewerWidth = () => {
     const modelsConfig = result.config.models;
     const w_col = modelsConfig.Space.length.col;
