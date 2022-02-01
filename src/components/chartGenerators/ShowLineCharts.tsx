@@ -24,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-export const ShowLineChartComponents = (props: {
+export const ShowLineCharts = (props: {
   result: resultData;
   range: {
     [id: string]: number | null;

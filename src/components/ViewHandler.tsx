@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { StoreState } from "../types/store";
 
 import config from "../config.json";
-import { ShowLineChartComponents } from "./chartGenerators/ShowLineChartComponent";
+import { ShowLineCharts } from "./chartGenerators/ShowLineCharts";
+import { ShowSnapShotCharts } from "./chartGenerators/ShowSnapShotCharts";
 
 export const ViewHandler = () => {
   const result = useSelector((arg: { state: StoreState }) => arg.state.result);
@@ -16,7 +17,7 @@ export const ViewHandler = () => {
     switch (viewState) {
       case displayChartTypes["002"]:
         return (
-          <ShowLineChartComponents
+          <ShowLineCharts
             result={result}
             range={{
               start: 0,
@@ -27,7 +28,7 @@ export const ViewHandler = () => {
 
       case displayChartTypes["003"]:
         return (
-          <ShowLineChartComponents
+          <ShowLineCharts
             result={result}
             range={{
               start: 3,
@@ -36,9 +37,12 @@ export const ViewHandler = () => {
           />
         );
 
+      case displayChartTypes["010"]:
+        return <ShowSnapShotCharts />;
+
       default:
         return (
-          <ShowLineChartComponents
+          <ShowLineCharts
             result={result}
             range={{
               start: null,

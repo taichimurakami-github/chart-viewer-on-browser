@@ -64,6 +64,16 @@ export const Menu = () => {
             >
               I_only
             </button>
+            <button
+              onClick={() => {
+                dispatch({
+                  type: "VIEW_CHANGE_CHART_TYPE",
+                  chartType: displayChartTypes["010"],
+                });
+              }}
+            >
+              snapshot_I_only
+            </button>
           </ul>
         </div>
       )}
