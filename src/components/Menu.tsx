@@ -19,6 +19,7 @@ export const Menu = () => {
         left: "0",
         background: "white",
         padding: "10px",
+        boxShadow: "2px 2px 5px 2px lightgray",
       }}
     >
       <p>MENU</p>

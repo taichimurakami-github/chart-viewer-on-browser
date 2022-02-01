@@ -10,7 +10,10 @@ export type corona_model_config = {
     birthRate: number;
     initialInfectiousRate: number;
     initialFatarity: number;
-    space: {
+    feedbackRate: number;
+  };
+  models: {
+    Space: {
       connectionType: "partial" | "full";
       length: {
         col: number;

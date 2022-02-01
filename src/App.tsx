@@ -1,5 +1,5 @@
 import "./App.css";
-import { View } from "./components/View";
+import { ViewHandler } from "./components/ViewHandler";
 import { InputFile } from "./components/InputFile";
 import { Menu } from "./components/Menu";
 
@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <Menu />
-      <View />
+      <ViewHandler />
     </div>
   );
 }
