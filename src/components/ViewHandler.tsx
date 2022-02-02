@@ -14,6 +14,16 @@ export const ViewHandler = () => {
   const handleView = () => {
     const displayChartTypes = config.View.Chart.chartTypes;
     switch (viewState) {
+      case displayChartTypes["001"]:
+        return (
+          <ShowLineCharts
+            result={result}
+            range={{
+              start: null,
+              end: null,
+            }}
+          />
+        );
       case displayChartTypes["002"]:
         return (
           <ShowLineCharts
@@ -40,15 +50,7 @@ export const ViewHandler = () => {
         return <ShowSnapShotCharts result={result} />;
 
       default:
-        return (
-          <ShowLineCharts
-            result={result}
-            range={{
-              start: null,
-              end: null,
-            }}
-          />
-        );
+        return <ShowSnapShotCharts result={result} />;
     }
   };
 

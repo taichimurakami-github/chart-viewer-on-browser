@@ -101,7 +101,7 @@ export const ShowSnapShotCharts = (props: { result: resultData }) => {
       };
 
       SnapShotChartComponents.push(
-        <div style={{ width: "1000px" }}>
+        <div style={{ width: "1152px" }}>
           <Bar
             data={chartJS_chartData}
             id={`chart_t=${t}`}

@@ -38,21 +38,11 @@ export const Menu = () => {
               onClick={() => {
                 dispatch({
                   type: "VIEW_CHANGE_CHART_TYPE",
-                  chartType: displayChartTypes["001"],
+                  chartType: displayChartTypes["010"],
                 });
               }}
             >
-              all
-            </button>
-            <button
-              onClick={() => {
-                dispatch({
-                  type: "VIEW_CHANGE_CHART_TYPE",
-                  chartType: displayChartTypes["002"],
-                });
-              }}
-            >
-              SIR
+              snapshot_I_only
             </button>
             <button
               onClick={() => {
@@ -68,11 +58,21 @@ export const Menu = () => {
               onClick={() => {
                 dispatch({
                   type: "VIEW_CHANGE_CHART_TYPE",
-                  chartType: displayChartTypes["010"],
+                  chartType: displayChartTypes["002"],
                 });
               }}
             >
-              snapshot_I_only
+              SIR
+            </button>
+            <button
+              onClick={() => {
+                dispatch({
+                  type: "VIEW_CHANGE_CHART_TYPE",
+                  chartType: displayChartTypes["001"],
+                });
+              }}
+            >
+              all
             </button>
           </ul>
         </div>

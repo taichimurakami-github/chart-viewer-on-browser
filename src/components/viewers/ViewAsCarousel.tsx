@@ -24,7 +24,9 @@ export const ViewAsCarousel = (props: any) => {
   }, [viewID]);
   return (
     <div style={{ padding: "100px" }}>
-      {getViewComponent()}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {getViewComponent()}
+      </div>
       <form
         onSubmit={(e) => {
           if (
@@ -34,6 +36,7 @@ export const ViewAsCarousel = (props: any) => {
             setViewID(Number(inputState));
         }}
       >
+        <label style={{ fontSize: "18px" }}>t = </label>
         <input
           type="text"
           value={inputState}
