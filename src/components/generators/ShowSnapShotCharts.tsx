@@ -1,23 +1,26 @@
 import config from "../../config.json";
 import { BarChartDataset } from "../../types/chartJS";
 import { resultData } from "../../types/data";
+import { Bar } from "react-chartjs-2";
+import { ViewAsCarousel } from "../viewers/ViewAsCarousel";
 
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
+import { useMemo } from "react";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
@@ -26,12 +29,12 @@ ChartJS.register(
 export const ShowSnapShotCharts = (props: { result: resultData }) => {
   const result = props.result;
 
-  //x軸のラベル：普通に数値を入れるだけ
-  const x_axis_label = result.data[0].map((val, index) => index);
+  //x軸のラベル：空間ID
+  const spaceLength = result.data.length;
+  const x_axis_label = result.data.map((val, index) => index);
 
   //その他設定読みこみ
   const colors = config.View.Chart.colors;
-  const width = config.View.Chart.width;
 
   /**
    * chartJSのdatasetを作成する
@@ -47,8 +50,6 @@ export const ShowSnapShotCharts = (props: { result: resultData }) => {
     //axisNamesの何番目から何番目に対応するか
     const range_start = 3;
     const range_end = result.axisNames.length;
-
-    const spaceLength = result.data.length;
 
     for (let spaceID = 0; spaceID < spaceLength; spaceID++) {
       every_space_rate_data.push([]);
@@ -78,25 +79,42 @@ export const ShowSnapShotCharts = (props: { result: resultData }) => {
         //このズレを修正する
         insertObj.data.push(d[i - range_start]);
       }
+
+      datasetsFromResult.push(insertObj);
     }
 
     return datasetsFromResult;
   };
 
-  for (let i = 0; i < result.config.params.timeLength; i++) {
-    const chartJS_chartData = {
-      labels: x_axis_label,
-      datasets: createDataSets(i),
-    };
+  const results = useMemo(() => {
+    const SnapShotChartComponents = [];
+    const timeLength = result.config.params.timeLength;
+    for (let t = 0; t < timeLength; t++) {
+      const chartJS_chartData = {
+        labels: x_axis_label,
+        datasets: createDataSets(t),
+      };
 
-    const chartJS_options = {
-      responsive: true,
-      aspectRatio: 1.5,
-      elements: {
-        point: { radius: 0 },
-      },
-    };
-  }
+      const chartJS_options = {
+        responsive: true,
+        aspectRatio: 1.5,
+      };
 
-  return <></>;
+      SnapShotChartComponents.push(
+        <div style={{ width: "1000px" }}>
+          <Bar
+            data={chartJS_chartData}
+            id={`chart_t=${t}`}
+            options={chartJS_options}
+          />
+        </div>
+      );
+    }
+    return SnapShotChartComponents;
+  }, [result]);
+
+  /**
+   * 描画
+   */
+  return <ViewAsCarousel components={results} />;
 };

@@ -8,7 +8,6 @@ import { ShowSnapShotCharts } from "./generators/ShowSnapShotCharts";
 export const ViewHandler = () => {
   const result = useSelector((arg: { state: StoreState }) => arg.state.result);
   const viewState = useSelector((arg: { state: StoreState }) => arg.state.view);
-
   //resultにデータが格納されていなかったら終了
   if (!result) return <p>no data</p>;
 
