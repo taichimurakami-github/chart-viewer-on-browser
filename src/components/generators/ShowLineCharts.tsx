@@ -13,6 +13,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useMemo } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -41,72 +42,81 @@ export const ShowLineCharts = (props: {
   const colors = config.View.Chart.colors;
   const width = config.View.Chart.width;
 
-  /**
-   * chartJSのdatasetを作成する
-   * @param spaceID
-   * どの空間のデータセットを作成するかを空間IDで指定
-   *
-   * @param targetRange
-   * axisNames内に指定されたデータの種類から、どれを取り出すかを規定
-   */
-  const createDataSets = (
-    spaceID: number = 0,
-    r_start: number = 0,
-    r_end: number = result.axisNames.length
-  ) => {
-    const data = result.data[spaceID];
-    const datasetsFromResult = [];
+  const results = useMemo(() => {
+    /**
+     * chartJSのdatasetを作成する
+     * @param spaceID
+     * どの空間のデータセットを作成するかを空間IDで指定
+     *
+     * @param targetRange
+     * axisNames内に指定されたデータの種類から、どれを取り出すかを規定
+     */
+    const createDataSets = (
+      spaceID: number = 0,
+      r_start: number = 0,
+      r_end: number = result.axisNames.length
+    ) => {
+      const data = result.data[spaceID];
+      const datasetsFromResult = [];
 
-    for (let i = r_start; i < r_end; i++) {
-      const insertObj: LineChartDataset = {
-        label: result.axisNames[i],
-        data: [],
-        borderColor: colors[i],
-        backgroundColor: colors[i],
-        borderWidth: 2,
-      };
+      for (let i = r_start; i < r_end; i++) {
+        const insertObj: LineChartDataset = {
+          label: result.axisNames[i],
+          data: [],
+          borderColor: colors[i],
+          backgroundColor: colors[i],
+          borderWidth: 2,
+        };
 
-      //dataに各ラベルに対応する値を抽出して代入
-      for (let j = 0; j < data.length; j++) {
-        insertObj.data.push(data[j][i]);
+        //dataに各ラベルに対応する値を抽出して代入
+        for (let j = 0; j < data.length; j++) {
+          insertObj.data.push(data[j][i]);
+        }
+
+        datasetsFromResult.push(insertObj);
       }
 
-      datasetsFromResult.push(insertObj);
+      return datasetsFromResult;
+    };
+
+    /**
+     * グラフのデータセット生成処理
+     */
+    const LineChartComponents = [];
+    //全ての空間に対して走査
+    for (let spaceID = 0; spaceID < result.data.length; spaceID++) {
+      const chartJS_chartData = {
+        labels: x_axis_label,
+        datasets: createDataSets(spaceID, r_start, r_end),
+      };
+
+      const chartJS_options = {
+        responsive: true,
+        aspectRatio: 1.5,
+        elements: {
+          point: { radius: 0 },
+        },
+      };
+
+      LineChartComponents.push(
+        <div
+          style={{ width: width + "px" }}
+          key={`Space_${spaceID}_${props.range.start || 0}_${
+            props.range.end || result.data.length - 1
+          }`}
+        >
+          <Line
+            data={chartJS_chartData}
+            id={`chart_of_space_${spaceID}`}
+            options={chartJS_options}
+          />
+          <p>Space {spaceID}</p>
+        </div>
+      );
     }
 
-    return datasetsFromResult;
-  };
-
-  /**
-   * グラフのデータセット生成処理
-   */
-  const LineChartComponents = [];
-  //全ての空間に対して走査
-  for (let spaceID = 0; spaceID < result.data.length; spaceID++) {
-    const chartJS_chartData = {
-      labels: x_axis_label,
-      datasets: createDataSets(spaceID, r_start, r_end),
-    };
-
-    const chartJS_options = {
-      responsive: true,
-      aspectRatio: 1.5,
-      elements: {
-        point: { radius: 0 },
-      },
-    };
-
-    LineChartComponents.push(
-      <div style={{ width: width + "px" }}>
-        <Line
-          data={chartJS_chartData}
-          id={`chart_of_space_${spaceID}`}
-          options={chartJS_options}
-        />
-        <p>Space {spaceID}</p>
-      </div>
-    );
-  }
+    return LineChartComponents;
+  }, [result]);
 
   /**
    * 描画
@@ -133,7 +143,7 @@ export const ShowLineCharts = (props: {
         width: handleViewerWidth(),
       }}
     >
-      {LineChartComponents}
+      {results}
     </div>
   );
 };

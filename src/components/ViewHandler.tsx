@@ -4,18 +4,20 @@ import { StoreState } from "../types/store";
 import config from "../config.json";
 import { ShowLineCharts } from "./generators/ShowLineCharts";
 import { ShowSnapShotCharts } from "./generators/ShowSnapShotCharts";
+import { useMemo } from "react";
 
 export const ViewHandler = () => {
   const result = useSelector((arg: { state: StoreState }) => arg.state.result);
   const viewState = useSelector((arg: { state: StoreState }) => arg.state.view);
-  //resultにデータが格納されていなかったら終了
-  if (!result) return <p>no data</p>;
 
-  const handleView = () => {
-    const displayChartTypes = config.View.Chart.chartTypes;
-    switch (viewState) {
-      case displayChartTypes["001"]:
-        return (
+  //resultにデータが格納されていなかったら終了
+
+  const displayChartTypes = config.View.Chart.chartTypes;
+  const viewData = useMemo(() => {
+    console.log("useMemo");
+    if (result) {
+      return {
+        [displayChartTypes["001"]]: (
           <ShowLineCharts
             result={result}
             range={{
@@ -23,9 +25,8 @@ export const ViewHandler = () => {
               end: null,
             }}
           />
-        );
-      case displayChartTypes["002"]:
-        return (
+        ),
+        [displayChartTypes["002"]]: (
           <ShowLineCharts
             result={result}
             range={{
@@ -33,10 +34,8 @@ export const ViewHandler = () => {
               end: 3,
             }}
           />
-        );
-
-      case displayChartTypes["003"]:
-        return (
+        ),
+        [displayChartTypes["003"]]: (
           <ShowLineCharts
             result={result}
             range={{
@@ -44,15 +43,21 @@ export const ViewHandler = () => {
               end: null,
             }}
           />
-        );
-
-      case displayChartTypes["010"]:
-        return <ShowSnapShotCharts result={result} />;
-
-      default:
-        return <ShowSnapShotCharts result={result} />;
+        ),
+        [displayChartTypes["010"]]: <ShowSnapShotCharts result={result} />,
+      };
     }
-  };
+  }, [result]);
 
-  return <>{handleView()}</>;
+  if (result && viewData) {
+    return (
+      <>
+        {viewState === ""
+          ? viewData[displayChartTypes["010"]]
+          : viewData[viewState]}
+      </>
+    );
+  } else {
+    return <>{<p>no data.</p>}</>;
+  }
 };

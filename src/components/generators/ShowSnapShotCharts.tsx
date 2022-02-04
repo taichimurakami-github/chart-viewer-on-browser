@@ -14,7 +14,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useMemo } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -86,35 +85,31 @@ export const ShowSnapShotCharts = (props: { result: resultData }) => {
     return datasetsFromResult;
   };
 
-  const results = useMemo(() => {
-    const SnapShotChartComponents = [];
-    const timeLength = result.config.params.timeLength;
-    for (let t = 0; t < timeLength; t++) {
-      const chartJS_chartData = {
-        labels: x_axis_label,
-        datasets: createDataSets(t),
-      };
+  const SnapShotChartComponents = [];
+  const timeLength = result.config.params.timeLength;
+  for (let t = 0; t < timeLength; t++) {
+    const chartJS_chartData = {
+      labels: x_axis_label,
+      datasets: createDataSets(t),
+    };
 
-      const chartJS_options = {
-        responsive: true,
-        aspectRatio: 1.5,
-      };
+    const chartJS_options = {
+      responsive: true,
+      aspectRatio: 1.5,
+    };
 
-      SnapShotChartComponents.push(
-        <div style={{ width: "1152px" }}>
-          <Bar
-            data={chartJS_chartData}
-            id={`chart_t=${t}`}
-            options={chartJS_options}
-          />
-        </div>
-      );
-    }
-    return SnapShotChartComponents;
-  }, [result]);
-
+    SnapShotChartComponents.push(
+      <div style={{ width: "1152px" }}>
+        <Bar
+          data={chartJS_chartData}
+          id={`chart_t=${t}`}
+          options={chartJS_options}
+        />
+      </div>
+    );
+  }
   /**
    * 描画
    */
-  return <ViewAsCarousel components={results} />;
+  return <ViewAsCarousel components={SnapShotChartComponents} />;
 };
