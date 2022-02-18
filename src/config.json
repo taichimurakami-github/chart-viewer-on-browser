@@ -14,16 +14,15 @@
       },
       "colors": [
         "red",
-        "yellow",
+        "salmon",
+        "green",
         "blue",
         "lightgreen",
-        "green",
         "skyblue",
-        "blue",
-        "purple",
-        "pink",
         "brown",
-        "black"
+        "purple",
+        "darkgreen",
+        "darkblue"
       ]
     }
   }

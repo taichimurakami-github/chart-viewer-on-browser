@@ -11,8 +11,12 @@ export const ViewHandler = () => {
   const viewState = useSelector((arg: { state: StoreState }) => arg.state.view);
 
   //resultにデータが格納されていなかったら終了
-
   const displayChartTypes = config.View.Chart.chartTypes;
+
+  //S, R, E_ALL, I_ALL, E_xx, I_xx,...
+  //I_ALLのid
+  const START_OF_I_AND_E = 4;
+
   const viewData = useMemo(() => {
     console.log("useMemo");
     if (result) {
@@ -31,7 +35,7 @@ export const ViewHandler = () => {
             result={result}
             range={{
               start: 0,
-              end: 3,
+              end: START_OF_I_AND_E,
             }}
           />
         ),
@@ -39,7 +43,7 @@ export const ViewHandler = () => {
           <ShowLineCharts
             result={result}
             range={{
-              start: 3,
+              start: START_OF_I_AND_E,
               end: null,
             }}
           />
