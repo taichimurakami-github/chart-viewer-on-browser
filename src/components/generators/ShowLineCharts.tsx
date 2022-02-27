@@ -122,9 +122,8 @@ export const ShowLineCharts = (props: {
    * 描画
    */
   const handleViewerWidth = () => {
-    const modelsConfig = result.config.models;
-    const w_col = modelsConfig.Space.length.col;
-    switch (modelsConfig.Space.connectionType) {
+    const w_col = result.config.params.spaceLength.col;
+    switch (result.config.params.spaceConnectionType) {
       case "partial":
         return (width + config.View.Chart.gap.col) * w_col + "px";
       default:
